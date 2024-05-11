@@ -12,7 +12,10 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { AuthPayload, AuthSchema } from '@/schemas/auth-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
 
 export enum AuthFormType {
   Login,
@@ -21,13 +24,50 @@ export enum AuthFormType {
   ResetPassword,
 }
 
+// type AuthSchema =
+//   | typeof EmailSchema
+//   | typeof PasswordSchema
+//   | typeof EmailPasswordSchema;
+
+// type AuthPayload = EmailPayload | PasswordPayload | EmailPasswordPayload;
+
 type Props = {
   type: AuthFormType;
   isPending: boolean;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (data: AuthPayload) => void;
+  onLoginWithGoogle?: () => void;
+  confirmationEmail?: string;
 };
 
-export function AuthForm({ type, isPending, onSubmit }: Props) {
+export function AuthForm({
+  type,
+  isPending,
+  onSubmit,
+  onLoginWithGoogle,
+  confirmationEmail,
+}: Props) {
+  // let schema: AuthSchema;
+  // if (type === AuthFormType.Register || type === AuthFormType.ResetPassword) {
+  //   schema = EmailSchema;
+  // } else if (type === AuthFormType.CompleteRegistration) {
+  //   schema = PasswordSchema;
+  // } else {
+  //   schema = EmailPasswordSchema;
+  // }
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AuthPayload>({
+    resolver: zodResolver(AuthSchema),
+  });
+
+  const value =
+    type === AuthFormType.CompleteRegistration
+      ? { value: confirmationEmail }
+      : null;
+
   return (
     <Card className="mx-auto max-w-md min-w-[350px]">
       <CardHeader>
@@ -51,19 +91,28 @@ export function AuthForm({ type, isPending, onSubmit }: Props) {
       </CardHeader>
 
       <CardContent>
-        <form onSubmit={onSubmit} className="grid gap-4">
-          {type !== AuthFormType.CompleteRegistration && (
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                disabled={isPending}
-                required
-              />
-            </div>
-          )}
+        <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              // value={
+              //   type === AuthFormType.CompleteRegistration
+              //     ? confirmationEmail
+              //     : ''
+              // }
+              {...value}
+              placeholder="m@example.com"
+              disabled={isPending || type === AuthFormType.CompleteRegistration}
+              // disabled={isPending}
+              required
+              {...register('email')}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
+          </div>
 
           {type !== AuthFormType.Register &&
             type !== AuthFormType.ResetPassword && (
@@ -84,7 +133,13 @@ export function AuthForm({ type, isPending, onSubmit }: Props) {
                   type="password"
                   disabled={isPending}
                   required
+                  {...register('password')}
                 />
+                {errors.password && (
+                  <p className="text-red-500 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
             )}
 
@@ -103,6 +158,7 @@ export function AuthForm({ type, isPending, onSubmit }: Props) {
                 type="button"
                 variant="outline"
                 disabled={isPending}
+                onClick={onLoginWithGoogle}
                 className="w-full flex justify-center items-center gap-2"
               >
                 <svg

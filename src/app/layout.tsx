@@ -1,8 +1,9 @@
 import Navbar from '@/components/navbar';
+import Providers from '@/components/providers';
 import { appName } from '@/config';
 import { cn } from '@/lib/utils';
+import { AuthContextProvider } from '@/store/auth';
 import type { Metadata } from 'next';
-import { ThemeProvider } from 'next-themes';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
@@ -22,27 +23,24 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <div
-          className={cn(
-            'min-h-screen w-full bg-background font-sans antialiased flex flex-col overflow-x-hidden',
-            inter.className
-          )}
-        >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Navbar />
+        <AuthContextProvider>
+          <Providers>
+            <div
+              className={cn(
+                'min-h-screen w-full bg-background font-sans antialiased flex flex-col overflow-x-hidden',
+                inter.className
+              )}
+            >
+              <Navbar />
 
-            <main className="flex-grow container pt-16">{children}</main>
+              <main className="flex-grow container pt-16">{children}</main>
 
-            <Toaster richColors />
+              <Toaster richColors />
 
-            {/* <Footer /> */}
-          </ThemeProvider>
-        </div>
+              {/* <Footer /> */}
+            </div>
+          </Providers>
+        </AuthContextProvider>
       </body>
     </html>
   );

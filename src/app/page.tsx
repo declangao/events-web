@@ -1,3 +1,10 @@
+'use client';
+
+import { AuthContext } from '@/store/auth';
+import { useContext } from 'react';
+
 export default function Home() {
-  return <div className="">Home page</div>;
+  const authCtx = useContext(AuthContext);
+
+  return <div className="">{JSON.stringify(authCtx.user)}</div>;
 }

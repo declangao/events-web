@@ -12,12 +12,27 @@ import {
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { appName, navLinks } from '@/config';
+import { auth } from '@/lib/firebase';
+import { AuthContext } from '@/store/auth';
 import { Calendar, CircleUser, Menu, Search } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useContext } from 'react';
+import { toast } from 'sonner';
 import NavLink from './nav-link';
 import ThemeToggle from './theme-toggle';
 
 const Navbar = () => {
+  const authCtx = useContext(AuthContext);
+  const router = useRouter();
+
+  const handleLogout = () => {
+    auth.signOut();
+    authCtx.setUser(null);
+    router.push('/');
+    toast.success('Logged out successfully');
+  };
+
   return (
     <header className="fixed top-0 flex h-16 w-full items-center gap-4 border-b px-4 md:px-6 backdrop-blur-lg shadow-md">
       <div className="container flex items-center">
@@ -73,29 +88,41 @@ const Navbar = () => {
 
           <ThemeToggle />
 
-          <NavLink name="Login" href="/login" />
-          <NavLink name="Register" href="/register" />
+          {!authCtx.user && (
+            <>
+              <NavLink name="Login" href="/login" />
+              <NavLink name="Register" href="/register" />
+            </>
+          )}
 
           {/* Remove later */}
-          <NavLink name="Reset" href="/reset-password" />
-          <NavLink name="Complete" href="/complete-registration" />
+          {/* <NavLink name="Reset" href="/reset-password" />
+          <NavLink name="Complete" href="/complete-registration" /> */}
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="size-5" />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>@username</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {authCtx.user && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="rounded-full"
+                >
+                  <CircleUser className="size-5" />
+                  <span className="sr-only">Toggle user menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>{authCtx.user.email}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
     </header>
