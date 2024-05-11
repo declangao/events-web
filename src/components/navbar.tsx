@@ -95,10 +95,6 @@ const Navbar = () => {
             </>
           )}
 
-          {/* Remove later */}
-          {/* <NavLink name="Reset" href="/reset-password" />
-          <NavLink name="Complete" href="/complete-registration" /> */}
-
           {authCtx.user && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

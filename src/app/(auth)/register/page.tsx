@@ -8,7 +8,7 @@ import { AuthContext } from '@/store/auth';
 import { useMutation } from '@apollo/client';
 import { sendSignInLinkToEmail, signInWithPopup } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 const RegisterPage = () => {
@@ -18,6 +18,20 @@ const RegisterPage = () => {
   const authCtx = useContext(AuthContext);
 
   const [createUser] = useMutation(CREATE_USER);
+
+  useEffect(() => {
+    const createUserInDB = async () => {
+      try {
+        await createUser();
+      } catch (error) {
+        console.log((error as Error).message);
+      }
+    };
+
+    if (authCtx.user) {
+      createUserInDB();
+    }
+  }, [authCtx.user, createUser]);
 
   const handleSubmit = async (data: AuthPayload) => {
     setIsPending(true);
@@ -30,7 +44,7 @@ const RegisterPage = () => {
 
       window.localStorage.setItem('emailForSignIn', data.email!);
 
-      // router.push('/');
+      router.push('/');
       toast.success('Please check your email to verify your account');
     } catch (error) {
       toast.error('Something went wrong', {
@@ -52,11 +66,6 @@ const RegisterPage = () => {
         email: user.email!,
         token: idTokenResult.token,
       });
-
-      // TODO: Fix calling graphql api without authorisation header
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      await createUser();
 
       router.push('/');
       toast.success('Login successful');
