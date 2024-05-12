@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AuthPayload, AuthSchema } from '@/schemas/auth-form';
+import { AuthPayload, authSchema } from '@/schemas/auth-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -60,7 +60,7 @@ export function AuthForm({
     handleSubmit,
     formState: { errors },
   } = useForm<AuthPayload>({
-    resolver: zodResolver(AuthSchema),
+    resolver: zodResolver(authSchema),
   });
 
   const value =

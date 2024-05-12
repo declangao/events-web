@@ -29,6 +29,20 @@ const CompleteRegistrationPage = () => {
     setEmail(window.localStorage.getItem('emailForSignIn') ?? '');
   }, []);
 
+  useEffect(() => {
+    const createUserInDB = async () => {
+      try {
+        await createUser();
+      } catch (error) {
+        console.log((error as Error).message);
+      }
+    };
+
+    if (authCtx.user) {
+      createUserInDB();
+    }
+  }, [authCtx.user, createUser]);
+
   const handleSubmit = async (data: AuthPayload) => {
     setIsPending(true);
 
@@ -60,10 +74,6 @@ const CompleteRegistrationPage = () => {
             email: user.email!,
             token: idTokenResult.token,
           });
-
-          console.log('before create');
-          // create use in own database
-          await createUser();
 
           router.push('/');
           toast.success('Registration completed!');
