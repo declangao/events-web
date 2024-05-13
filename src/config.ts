@@ -5,3 +5,5 @@ export const navLinks = [
   { name: 'Events', href: '/events' },
   { name: 'Profile', href: '/profile' },
 ];
+
+export const IMAGE_UPLOAD_LIMIT = 6;

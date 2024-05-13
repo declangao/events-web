@@ -98,11 +98,7 @@ const Navbar = () => {
           {authCtx.user && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="rounded-full"
-                >
+                <Button variant="ghost" size="icon">
                   <CircleUser className="size-5" />
                   <span className="sr-only">Toggle user menu</span>
                 </Button>
@@ -110,12 +106,24 @@ const Navbar = () => {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>{authCtx.user.email}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  Settings
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Post your event</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => router.push('/events/post')}
+                  className="cursor-pointer"
+                >
+                  Post your event
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="cursor-pointer"
+                >
                   Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
