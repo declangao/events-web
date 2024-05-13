@@ -1,22 +1,16 @@
 'use client';
 
-import { ALL_EVENTS } from '@/graphql/queries';
-import { AllEventsQueryData } from '@/types/event';
-import { useQuery } from '@apollo/client';
+import { Event } from '@/types/event';
 import EventCard from './event-card';
 
-type Props = {};
+type Props = {
+  events: Event[];
+};
 
-const EventsGrid = (props: Props) => {
-  const { data, loading, error } = useQuery<AllEventsQueryData>(ALL_EVENTS);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error</p>;
-  if (!data) return <p>No data</p>;
-
+const EventsGrid = ({ events }: Props) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {data.allEvents.map((event) => (
+      {events.map((event) => (
         <EventCard key={event.id} event={event} />
       ))}
     </div>

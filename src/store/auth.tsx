@@ -10,7 +10,7 @@ type User = {
   token: string;
 };
 
-type AuthState = {
+export type AuthState = {
   user: User | null;
   setUser: (user: User | null) => void;
 };
