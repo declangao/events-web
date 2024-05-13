@@ -9,7 +9,7 @@ type Props = {
 
 const EventCard = ({ event }: Props) => {
   return (
-    <Card>
+    <Card className="hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
         <Link href={`/events/${event.id}`}>
           <Image

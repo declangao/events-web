@@ -15,3 +15,7 @@ export type Event = {
 export type AllEventsQueryData = {
   allEvents: Event[];
 };
+
+export type EventByIdQueryData = {
+  eventById: Event;
+};
