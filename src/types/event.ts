@@ -1,4 +1,5 @@
 import { TImage } from './image';
+import { User } from './user';
 
 export type Event = {
   id: string;
@@ -10,6 +11,7 @@ export type Event = {
   datetime: Date;
   images: TImage[];
   creatorId: string;
+  creator?: User;
 };
 
 export type AllEventsQueryData = {
