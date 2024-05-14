@@ -1,3 +1,4 @@
+import { PLACEHOLDER_IMAGE } from '@/config';
 import { EVENT_BY_ID } from '@/graphql/queries';
 import { getApolloClient } from '@/lib/apollo-client';
 import { EventByIdQueryData } from '@/types/event';
@@ -20,13 +21,11 @@ const EventDetailsPage = async ({ params: { eventId } }: Props) => {
   });
   const { eventById: event } = data;
 
-  console.log(event);
-
   return (
     <article className="max-w-3xl mx-auto py-8 grid gap-4">
       <header>
         <Image
-          src={event.images.length ? event.images[0].url : '/placeholder.png'}
+          src={event.images.length ? event.images[0].url : PLACEHOLDER_IMAGE}
           alt={event.name}
           width={800}
           height={400}

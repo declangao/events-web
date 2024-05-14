@@ -7,3 +7,4 @@ export const navLinks = [
 ];
 
 export const IMAGE_UPLOAD_LIMIT = 6;
+export const PLACEHOLDER_IMAGE = '/placeholder.png';

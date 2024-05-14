@@ -34,7 +34,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-0 flex h-16 w-full items-center gap-4 border-b px-4 md:px-6 backdrop-blur-lg shadow-md">
+    <header className="fixed top-0 flex h-16 w-full items-center gap-4 border-b px-4 md:px-6 backdrop-blur-lg shadow-md z-20">
       <div className="container flex items-center">
         <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 lg:gap-6 md:text-sm">
           <Link

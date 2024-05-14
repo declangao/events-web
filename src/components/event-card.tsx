@@ -1,7 +1,9 @@
 import { Event } from '@/types/event';
-import Image from 'next/image';
 import Link from 'next/link';
+import ImageSlider from './image-slider';
 import { Card, CardContent, CardHeader } from './ui/card';
+
+import 'swiper/css';
 
 type Props = {
   event: Event;
@@ -9,33 +11,25 @@ type Props = {
 
 const EventCard = ({ event }: Props) => {
   return (
-    <Card className="hover:shadow-lg transition-shadow duration-300">
-      <CardHeader>
-        <Link href={`/events/${event.id}`}>
-          <Image
-            src={event.images.length ? event.images[0].url : '/placeholder.png'}
-            alt={event.name}
-            height={250}
-            width={300}
-            // fill
-            className="w-full h-[250px] object-cover"
-          />
-        </Link>
-      </CardHeader>
+    <Link href={`/events/${event.id}`}>
+      <Card className="hover:shadow-lg transition-shadow duration-300">
+        <CardHeader className="">
+          <ImageSlider images={event.images.map((image) => image.url)} />
+        </CardHeader>
 
-      {/* <Separator className="" /> */}
-
-      <CardContent>
-        <h4 className="text-2xl font-semibold leading-none tracking-tight">
-          {event.name}
-        </h4>
-        <p className="text-muted-foreground">
-          {`${new Date(event.datetime).toLocaleDateString()} ${new Date(
-            event.datetime
-          ).toLocaleTimeString()}`}
-        </p>
-      </CardContent>
-    </Card>
+        <CardContent className="grid gap-2">
+          <h4 className="text-2xl font-semibold leading-none tracking-tight">
+            {event.name}
+          </h4>
+          <p className="text-muted-foreground italic">
+            {`${new Date(event.datetime).toLocaleDateString()} ${new Date(
+              event.datetime
+            ).toLocaleTimeString()}`}
+          </p>
+          <p className="">{event.location}</p>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 
