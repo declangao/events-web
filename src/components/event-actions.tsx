@@ -11,10 +11,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { DELETE_EVENT } from '@/graphql/mutations';
-import { ALL_EVENTS } from '@/graphql/queries';
+import {
+  DELETE_EVENT,
+  REGISTER_EVENT,
+  UNREGISTER_EVENT,
+} from '@/graphql/mutations';
+import { ALL_EVENTS, CHECK_REGISTRATION } from '@/graphql/queries';
 import { AuthContext } from '@/store/auth';
-import { AllEventsQueryData, Event } from '@/types/event';
+import { Event } from '@/types/event';
+import {
+  CheckRegistrationQueryData,
+  ResisterEventMutationData,
+  UnresisterEventMutationData,
+} from '@/types/registration';
 import { useMutation, useQuery } from '@apollo/client';
 import { Edit, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -34,23 +43,22 @@ const EventActions = ({ eventId, creatorEmail }: Props) => {
   const [deleteEvent, { loading, error }] = useMutation<Event, { id: string }>(
     DELETE_EVENT
   );
-  const query = useQuery<AllEventsQueryData>(ALL_EVENTS);
+
+  const { data: checkRegistrationData } = useQuery<
+    CheckRegistrationQueryData,
+    { eventId: string }
+  >(CHECK_REGISTRATION, {
+    variables: { eventId },
+    skip: !authCtx.user,
+  });
 
   const handleDelete = () => {
     deleteEvent({
       variables: {
         id: eventId,
       },
-      context: {
-        headers: {
-          Authorization: authCtx.user?.token,
-        },
-      },
       refetchQueries: [{ query: ALL_EVENTS }],
-      onCompleted: async () => {
-        const { data } = await query.refetch();
-        query.updateQuery(() => data);
-
+      onCompleted: () => {
         toast.success('Event deleted successfully');
         router.push('/events');
         router.refresh();
@@ -58,18 +66,52 @@ const EventActions = ({ eventId, creatorEmail }: Props) => {
       onError: (error) => {
         toast.error('Failed to delete event', { description: error.message });
       },
-      // update: (cache) => {
-      //   const { allEvents } = cache.readQuery<AllEventsQueryData>({
-      //     query: ALL_EVENTS,
-      //   })!;
+    });
+  };
 
-      //   cache.writeQuery({
-      //     query: ALL_EVENTS,
-      //     data: {
-      //       allEvents: allEvents.filter((event) => event.id !== eventId),
-      //     },
-      //   });
-      // },
+  const [registerEvent] = useMutation<
+    ResisterEventMutationData,
+    { eventId: string }
+  >(REGISTER_EVENT);
+
+  const [unregisterEvent] = useMutation<
+    UnresisterEventMutationData,
+    { eventId: string }
+  >(UNREGISTER_EVENT);
+
+  const handleRegister = () => {
+    registerEvent({
+      variables: {
+        eventId,
+      },
+      refetchQueries: [{ query: CHECK_REGISTRATION, variables: { eventId } }],
+      onCompleted: () => {
+        toast.success('You have successfully registered for this event');
+        router.refresh();
+      },
+      onError: (error) => {
+        toast.error('Failed to register for this event', {
+          description: error.message,
+        });
+      },
+    });
+  };
+
+  const handleUnregister = () => {
+    unregisterEvent({
+      variables: {
+        eventId,
+      },
+      refetchQueries: [{ query: CHECK_REGISTRATION, variables: { eventId } }],
+      onCompleted: () => {
+        toast.success('You have successfully unregistered for this event');
+        router.refresh();
+      },
+      onError: (error) => {
+        toast.error('Failed to unregister for this event', {
+          description: error.message,
+        });
+      },
     });
   };
 
@@ -78,7 +120,25 @@ const EventActions = ({ eventId, creatorEmail }: Props) => {
   }
 
   if (authCtx.user && authCtx.user.email !== creatorEmail) {
-    return <Button>Join/Leave</Button>;
+    const isRegistered = checkRegistrationData?.checkRegistration;
+
+    if (!isRegistered) {
+      return (
+        <Button onClick={handleRegister} className="w-fit">
+          Register
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          onClick={handleUnregister}
+          variant="destructive"
+          className="w-fit"
+        >
+          Unregister
+        </Button>
+      );
+    }
   }
 
   return (

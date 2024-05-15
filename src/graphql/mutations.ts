@@ -39,3 +39,21 @@ export const UPDATE_EVENT = gql`
 
   ${FRAGMENT_EVENT_INFO}
 `;
+
+export const REGISTER_EVENT = gql`
+  mutation RegisterEvent($eventId: String!) {
+    registerEvent(eventId: $eventId) {
+      eventId
+      userId
+    }
+  }
+`;
+
+export const UNREGISTER_EVENT = gql`
+  mutation UnregisterEvent($eventId: String!) {
+    unregisterEvent(eventId: $eventId) {
+      eventId
+      userId
+    }
+  }
+`;

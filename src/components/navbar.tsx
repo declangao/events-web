@@ -22,6 +22,12 @@ import { toast } from 'sonner';
 import NavLink from './nav-link';
 import ThemeToggle from './theme-toggle';
 import { Skeleton } from './ui/skeleton';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from './ui/tooltip';
 
 const Navbar = () => {
   const [isPending, setIsPending] = useState(true);
@@ -102,11 +108,20 @@ const Navbar = () => {
 
           {!isPending && authCtx.user && (
             <>
-              <Button variant="ghost" size="icon">
-                <Link href="/events/publish">
-                  <PlusCircle className="size-5" />
-                </Link>
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <Link href="/events/publish">
+                        <PlusCircle className="size-5" />
+                      </Link>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Publish your event</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

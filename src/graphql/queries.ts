@@ -24,3 +24,9 @@ export const EVENT_BY_ID = gql`
   ${FRAGMENT_EVENT_INFO}
   ${FRAGMENT_USER_INFO}
 `;
+
+export const CHECK_REGISTRATION = gql`
+  query CheckRegistration($eventId: String!) {
+    checkRegistration(eventId: $eventId)
+  }
+`;

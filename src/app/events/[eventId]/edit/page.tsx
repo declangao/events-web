@@ -4,12 +4,11 @@ import EventEditor from '@/components/event-editor';
 import { UPDATE_EVENT } from '@/graphql/mutations';
 import { ALL_EVENTS, EVENT_BY_ID } from '@/graphql/queries';
 import { EventFormPayload } from '@/schemas/event-form';
-import { AuthContext } from '@/store/auth';
 import { EventByIdQueryData, UpdateEventMutationData } from '@/types/event';
 import { useMutation, useQuery } from '@apollo/client';
 import { omitDeep } from '@apollo/client/utilities';
 import { useRouter } from 'next/navigation';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = {
@@ -21,7 +20,6 @@ type Props = {
 const EditEventPage = ({ params: { eventId } }: Props) => {
   const [isPending, setIsPending] = useState(false);
 
-  const authCtx = useContext(AuthContext);
   const router = useRouter();
 
   const [updateEvent] = useMutation<UpdateEventMutationData>(UPDATE_EVENT);
@@ -54,11 +52,6 @@ const EditEventPage = ({ params: { eventId } }: Props) => {
           description: data.description,
           images: data.images.map((image) => omitDeep(image, '__typename')),
           datetime,
-        },
-      },
-      context: {
-        headers: {
-          authorization: authCtx.user?.token,
         },
       },
       onCompleted: () => {

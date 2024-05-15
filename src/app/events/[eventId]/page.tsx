@@ -52,6 +52,7 @@ const EventDetailsPage = async ({ params: { eventId } }: Props) => {
       </header>
 
       <EventActions eventId={eventId} creatorEmail={event.creator?.email!} />
+
       <div className="grid gap-4">
         <dl className="grid gap-2">
           <dt className="font-bold">Date</dt>

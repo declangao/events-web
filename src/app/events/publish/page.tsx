@@ -4,16 +4,14 @@ import EventEditor from '@/components/event-editor';
 import { CREATE_EVENT } from '@/graphql/mutations';
 import { ALL_EVENTS } from '@/graphql/queries';
 import { EventFormPayload } from '@/schemas/event-form';
-import { AuthContext } from '@/store/auth';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/navigation';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 const PostEvent = () => {
   const [isPending, setIsPending] = useState(false);
 
-  const authCtx = useContext(AuthContext);
   const router = useRouter();
 
   const [createEvent] = useMutation(CREATE_EVENT);
@@ -31,11 +29,6 @@ const PostEvent = () => {
           description: data.description,
           datetime: datetime,
           images: data.images,
-        },
-      },
-      context: {
-        headers: {
-          Authorization: authCtx.user?.token,
         },
       },
       onCompleted: () => {
