@@ -6,7 +6,7 @@ import { TImage } from '@/types/image';
 import axios from 'axios';
 import { Trash2, Upload } from 'lucide-react';
 import Image from 'next/image';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import Dropzone from 'react-dropzone';
 import Resizer from 'react-image-file-resizer';
 import { toast } from 'sonner';
@@ -21,9 +21,12 @@ import {
 type Props = {
   images?: TImage[];
   setImages: React.Dispatch<React.SetStateAction<TImage[]>>;
+  // onUpload: (image: TImage) => void;
 };
 
 const ImageUpload = ({ images = [], setImages }: Props) => {
+  // const [images, setImages] = useState<TImage[]>([]);
+
   const authCtx = useContext(AuthContext);
 
   const handleOnDrop = async (acceptedFiles: File[]) => {
@@ -59,10 +62,22 @@ const ImageUpload = ({ images = [], setImages }: Props) => {
                 }
               );
 
+              // const newImages = [
+              //   ...images,
+              //   { url: res.data.url, publicId: res.data.public_id },
+              // ];
+              // setImages(newImages);
+
+              // const newImage = {
+              //   url: res.data.url,
+              //   publicId: res.data.public_id,
+              // };
               setImages((prev) => [
                 ...prev,
                 { url: res.data.url, publicId: res.data.public_id },
               ]);
+
+              // onUpload(newImage);
 
               toast.success('Image uploaded successfully');
             } catch (error) {
@@ -109,8 +124,9 @@ const ImageUpload = ({ images = [], setImages }: Props) => {
           Upload some images to help people get to know your event!
         </CardDescription>
       </CardHeader>
+
       <CardContent>
-        <div className="grid gap-4">
+        <div className="grid gap-3">
           <Dropzone
             accept={{
               'image/png': ['.png'],

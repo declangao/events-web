@@ -1,3 +1,4 @@
+import EventActions from '@/components/event-actions';
 import { PLACEHOLDER_IMAGE } from '@/config';
 import { EVENT_BY_ID } from '@/graphql/queries';
 import { getApolloClient } from '@/lib/apollo-client';
@@ -21,6 +22,10 @@ const EventDetailsPage = async ({ params: { eventId } }: Props) => {
   });
   const { eventById: event } = data;
 
+  if (!event) {
+    return <div>Event not found</div>;
+  }
+
   return (
     <article className="max-w-3xl mx-auto py-8 grid gap-4">
       <header>
@@ -31,6 +36,8 @@ const EventDetailsPage = async ({ params: { eventId } }: Props) => {
           height={400}
           className="object-cover mx-auto rounded-md"
         />
+
+        <EventActions eventId={eventId} creatorEmail={event.creator?.email!} />
 
         <h1 className="text-5xl font-bold mt-4">{event.name}</h1>
         <div className="mt-2">

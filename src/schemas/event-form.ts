@@ -15,9 +15,12 @@ export const eventFormSchema = z.object({
     .max(100, 'Location must be less than 50 characters'),
   date: z.string().date(),
   time: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time'),
-  // images: z
-  //   .array(z.object({ url: z.string().url(), publicId: z.string() }))
-  //   .optional(),
+  images: z
+    .array(z.object({ url: z.string().url(), publicId: z.string() }))
+    .default([]),
 });
 
 export type EventFormPayload = z.infer<typeof eventFormSchema>;
+// export type EventFormPayloadWithImages = z.infer<typeof eventFormSchema> & {
+//   images?: TImage[];
+// };

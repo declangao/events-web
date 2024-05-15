@@ -17,3 +17,4 @@ const EventsPage = async () => {
 };
 
 export default EventsPage;
+export const dynamic = 'force-dynamic';

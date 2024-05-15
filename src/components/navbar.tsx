@@ -14,7 +14,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { appName, navLinks } from '@/config';
 import { auth } from '@/lib/firebase';
 import { AuthContext } from '@/store/auth';
-import { Calendar, CircleUser, Menu, Search } from 'lucide-react';
+import { Calendar, CircleUser, Menu, PlusCircle, Search } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext } from 'react';
@@ -96,6 +96,12 @@ const Navbar = () => {
           )}
 
           {authCtx.user && (
+            <Link href="/events/publish">
+              <PlusCircle className="size-5" />
+            </Link>
+          )}
+
+          {authCtx.user && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -114,10 +120,10 @@ const Navbar = () => {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  onClick={() => router.push('/events/post')}
+                  onClick={() => router.push('/events/publish')}
                   className="cursor-pointer"
                 >
-                  Post your event
+                  Publish your event
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
