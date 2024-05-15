@@ -37,9 +37,7 @@ const EventDetailsPage = async ({ params: { eventId } }: Props) => {
           className="object-cover mx-auto rounded-md"
         />
 
-        <EventActions eventId={eventId} creatorEmail={event.creator?.email!} />
-
-        <h1 className="text-5xl font-bold mt-4">{event.name}</h1>
+        <h1 className="text-2xl md:text-4xl font-bold mt-4">{event.name}</h1>
         <div className="mt-2">
           <span className="text-muted-foreground">
             {`Posted on ${new Date(event.createdAt).toLocaleDateString()} by `}
@@ -53,6 +51,7 @@ const EventDetailsPage = async ({ params: { eventId } }: Props) => {
         </div>
       </header>
 
+      <EventActions eventId={eventId} creatorEmail={event.creator?.email!} />
       <div className="grid gap-4">
         <dl className="grid gap-2">
           <dt className="font-bold">Date</dt>

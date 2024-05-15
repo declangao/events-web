@@ -77,6 +77,7 @@ const Navbar = () => {
               {navLinks.map((link) => (
                 <NavLink key={link.name} {...link} />
               ))}
+              <ThemeToggle />
             </nav>
           </SheetContent>
         </Sheet>
@@ -93,15 +94,19 @@ const Navbar = () => {
             </div>
           </form>
 
-          <ThemeToggle />
+          <div className="hidden md:inline-block">
+            <ThemeToggle />
+          </div>
 
           {isPending && <Skeleton className="w-16 md:w-28 h-10 rounded-md" />}
 
           {!isPending && authCtx.user && (
             <>
-              <Link href="/events/publish">
-                <PlusCircle className="size-5" />
-              </Link>
+              <Button variant="ghost" size="icon">
+                <Link href="/events/publish">
+                  <PlusCircle className="size-5" />
+                </Link>
+              </Button>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
