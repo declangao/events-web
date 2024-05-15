@@ -164,7 +164,7 @@ const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
       </div>
 
       <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
-        <Card>
+        <Card className="order-last md:order-first">
           <div className="grid gap-4 p-8">
             <Button type="submit" disabled={isPending} className="w-full">
               {initData ? 'Update Event' : 'Publish Event'}
@@ -179,20 +179,6 @@ const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
               className="w-full"
             >
               Cancel
-            </Button>
-
-            <Button
-              type="button"
-              variant="ghost"
-              disabled={isPending}
-              onClick={() => {
-                console.log(errors);
-                console.log(images);
-                console.log(getValues());
-              }}
-              className="w-full"
-            >
-              Test
             </Button>
           </div>
         </Card>

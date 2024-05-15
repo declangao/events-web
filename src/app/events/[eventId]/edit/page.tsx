@@ -62,7 +62,8 @@ const EditEventPage = ({ params: { eventId } }: Props) => {
         },
       },
       onCompleted: () => {
-        router.push('/events');
+        router.push(`/events/${eventId}`);
+        router.refresh();
         toast.success('Event updated successfully');
       },
       onError: (error) => {
