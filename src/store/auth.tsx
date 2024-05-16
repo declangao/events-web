@@ -23,7 +23,25 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    // const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    //   if (user) {
+    //     const idTokenResult = await user.getIdTokenResult();
+
+    //     setUser({
+    //       email: user.email!,
+    //       token: idTokenResult.token,
+    //     });
+
+    //     setCookie('token', idTokenResult.token, {
+    //       path: '/',
+    //     });
+    //   } else {
+    //     setUser(null);
+    //     deleteCookie('token');
+    //   }
+    // });
+
+    const unsubscribe = auth.onIdTokenChanged(async (user) => {
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
 
@@ -41,7 +59,18 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
       }
     });
 
-    return () => unsubscribe();
+    // force refresh the token every 10 minutes
+    const timer = setInterval(async () => {
+      const user = auth.currentUser;
+      if (user) {
+        await user.getIdToken(true);
+      }
+    }, 10 * 60 * 1000);
+
+    return () => {
+      unsubscribe();
+      clearInterval(timer);
+    };
   }, []);
 
   return (
