@@ -1,8 +1,7 @@
 'use client';
 
-// import { create } from 'zustand';
-
 import { auth } from '@/lib/firebase';
+import { deleteCookie, setCookie } from 'cookies-next';
 import { PropsWithChildren, createContext, useEffect, useState } from 'react';
 
 type User = {
@@ -14,11 +13,6 @@ export type AuthState = {
   user: User | null;
   setUser: (user: User | null) => void;
 };
-
-// export const useAuthStore = create<AuthState>((set) => ({
-//   user: null,
-//   setUser: (user: User) => set({ user }),
-// }));
 
 export const AuthContext = createContext<AuthState>({
   user: null,
@@ -37,8 +31,13 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
           email: user.email!,
           token: idTokenResult.token,
         });
+
+        setCookie('token', idTokenResult.token, {
+          path: '/',
+        });
       } else {
         setUser(null);
+        deleteCookie('token');
       }
     });
 
