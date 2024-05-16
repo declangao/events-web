@@ -30,3 +30,13 @@ export const CHECK_REGISTRATION = gql`
     checkRegistration(eventId: $eventId)
   }
 `;
+
+export const MY_PROFILE = gql`
+  query MyProfile {
+    myProfile {
+      ...userInfo
+    }
+  }
+
+  ${FRAGMENT_USER_INFO}
+`;

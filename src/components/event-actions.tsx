@@ -49,7 +49,7 @@ const EventActions = ({ eventId, creatorEmail }: Props) => {
     { eventId: string }
   >(CHECK_REGISTRATION, {
     variables: { eventId },
-    skip: !authCtx.user,
+    skip: !authCtx.user || authCtx.user.email === creatorEmail,
   });
 
   const handleDelete = () => {

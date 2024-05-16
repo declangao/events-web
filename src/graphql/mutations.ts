@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { FRAGMENT_EVENT_INFO } from './fragments';
+import { FRAGMENT_EVENT_INFO, FRAGMENT_USER_INFO } from './fragments';
 
 export const CREATE_USER = gql`
   mutation CreateUser {
@@ -56,4 +56,14 @@ export const UNREGISTER_EVENT = gql`
       userId
     }
   }
+`;
+
+export const UPDATE_USER = gql`
+  mutation UpdateUser($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      ...userInfo
+    }
+  }
+
+  ${FRAGMENT_USER_INFO}
 `;

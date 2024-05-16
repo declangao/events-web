@@ -5,7 +5,7 @@ import { UPDATE_EVENT } from '@/graphql/mutations';
 import { ALL_EVENTS, EVENT_BY_ID } from '@/graphql/queries';
 import { EventFormPayload } from '@/schemas/event-form';
 import { EventByIdQueryData, UpdateEventMutationData } from '@/types/event';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useSuspenseQuery } from '@apollo/client';
 import { omitDeep } from '@apollo/client/utilities';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -24,21 +24,26 @@ const EditEventPage = ({ params: { eventId } }: Props) => {
 
   const [updateEvent] = useMutation<UpdateEventMutationData>(UPDATE_EVENT);
 
-  const { data, loading, error } = useQuery<EventByIdQueryData, { id: string }>(
+  // const { data, loading, error } = useQuery<EventByIdQueryData, { id: string }>(
+  //   EVENT_BY_ID,
+  //   {
+  //     variables: { id: eventId },
+  //   }
+  // );
+  const { data, error } = useSuspenseQuery<EventByIdQueryData, { id: string }>(
     EVENT_BY_ID,
     {
       variables: { id: eventId },
     }
   );
 
-  if (loading) return <div>Loading...</div>;
+  // if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   const { eventById: fetchedEvent } = data!;
   if (!fetchedEvent) return <div>Event not found</div>;
 
   const handleSubmit = async (data: EventFormPayload) => {
-    console.log(data);
     setIsPending(true);
 
     const datetime = new Date(data.date + 'T' + data.time).toISOString();
@@ -69,6 +74,8 @@ const EditEventPage = ({ params: { eventId } }: Props) => {
         { query: EVENT_BY_ID, variables: { id: eventId } },
       ],
     });
+
+    setIsPending(false);
   };
 
   return (

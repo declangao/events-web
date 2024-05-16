@@ -21,6 +21,3 @@ export const eventFormSchema = z.object({
 });
 
 export type EventFormPayload = z.infer<typeof eventFormSchema>;
-// export type EventFormPayloadWithImages = z.infer<typeof eventFormSchema> & {
-//   images?: TImage[];
-// };
