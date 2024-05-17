@@ -1,6 +1,8 @@
 'use client';
 
+import { EVENT_PAGE_LIMIT } from '@/config';
 import {
+  EventsQueryInput,
   MY_CREATED_EVENTS,
   MY_REGISTERED_EVENTS,
   MyCreatedEventsQueryData,
@@ -9,29 +11,47 @@ import {
 import { AuthContext } from '@/store/auth';
 import { MyEventsGridType } from '@/types/event';
 import { useQuery } from '@apollo/client';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import EventCard from './event-card';
+import PaginationClient from './pagination-client';
 
 type Props = {
   type: MyEventsGridType;
 };
 
 const MyEventsGrid = ({ type }: Props) => {
+  const [page, setPage] = useState(1);
+
   const authCtx = useContext(AuthContext);
 
   const {
     data: registeredEvents,
     loading: registeredEventsLoading,
     error: registeredEventsError,
-  } = useQuery<MyRegisteredEventsQueryData>(MY_REGISTERED_EVENTS, {
-    skip: !authCtx.user || type !== MyEventsGridType.REGISTERED,
-  });
+  } = useQuery<MyRegisteredEventsQueryData, EventsQueryInput>(
+    MY_REGISTERED_EVENTS,
+    {
+      variables: {
+        input: {
+          page,
+          limit: EVENT_PAGE_LIMIT,
+        },
+      },
+      skip: !authCtx.user || type !== MyEventsGridType.REGISTERED,
+    }
+  );
 
   const {
     data: createdEvents,
     loading: createdEventsLoading,
     error: createdEventsError,
-  } = useQuery<MyCreatedEventsQueryData>(MY_CREATED_EVENTS, {
+  } = useQuery<MyCreatedEventsQueryData, EventsQueryInput>(MY_CREATED_EVENTS, {
+    variables: {
+      input: {
+        page,
+        limit: EVENT_PAGE_LIMIT,
+      },
+    },
     skip: !authCtx.user || type !== MyEventsGridType.PUBLISHED,
   });
 
@@ -47,18 +67,31 @@ const MyEventsGrid = ({ type }: Props) => {
     );
   }
 
-  const events =
+  const data =
     type === MyEventsGridType.REGISTERED
       ? registeredEvents?.myRegisteredEvents
       : createdEvents?.myCreatedEvents;
 
-  return (
-    <div className="grid md:grid-cols-3 gap-4">
-      {events?.length === 0 && <div>No events found</div>}
+  if (!data) {
+    return <div>No data</div>;
+  }
 
-      {events?.map((event) => (
-        <EventCard key={event.id} event={event} />
-      ))}
+  return (
+    <div className="grid gap-4">
+      <div className="grid md:grid-cols-3 gap-4">
+        {data?.events?.length === 0 && <div>No events found</div>}
+
+        {data?.events?.map((event) => (
+          <EventCard key={event.id} event={event} />
+        ))}
+      </div>
+
+      <PaginationClient
+        page={page}
+        setPage={setPage}
+        total={data?.total}
+        limit={EVENT_PAGE_LIMIT}
+      />
     </div>
   );
 };

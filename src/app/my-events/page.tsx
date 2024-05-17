@@ -7,8 +7,12 @@ const MyEventsPage = () => {
     <div className="my-8">
       <Tabs defaultValue="registered" className="">
         <TabsList className="grid grid-cols-2 mb-4">
-          <TabsTrigger value="registered">Registered Events</TabsTrigger>
-          <TabsTrigger value="published">Published Events</TabsTrigger>
+          <TabsTrigger value="registered" className="">
+            Registered Events
+          </TabsTrigger>
+          <TabsTrigger value="published" className="">
+            Published Events
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="registered">
           <MyEventsGrid type={MyEventsGridType.REGISTERED} />

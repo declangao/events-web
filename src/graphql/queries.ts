@@ -6,7 +6,10 @@ import { FRAGMENT_EVENT_INFO, FRAGMENT_USER_INFO } from './fragments';
 export const ALL_EVENTS = gql`
   query AllEvents {
     allEvents {
-      ...eventInfo
+      events {
+        ...eventInfo
+      }
+      total
     }
   }
 
@@ -14,7 +17,10 @@ export const ALL_EVENTS = gql`
 `;
 
 export type AllEventsQueryData = {
-  allEvents: Event[];
+  allEvents: {
+    events: Event[];
+    total: number;
+  };
 };
 
 export const EVENT_BY_ID = gql`
@@ -60,9 +66,12 @@ export type MyProfileQueryData = {
 };
 
 export const MY_REGISTERED_EVENTS = gql`
-  query MyRegisteredEvents {
-    myRegisteredEvents {
-      ...eventInfo
+  query MyRegisteredEvents($input: EventsQueryInput!) {
+    myRegisteredEvents(input: $input) {
+      events {
+        ...eventInfo
+      }
+      total
     }
   }
 
@@ -70,13 +79,19 @@ export const MY_REGISTERED_EVENTS = gql`
 `;
 
 export type MyRegisteredEventsQueryData = {
-  myRegisteredEvents: Event[];
+  myRegisteredEvents: {
+    events: Event[];
+    total: number;
+  };
 };
 
 export const MY_CREATED_EVENTS = gql`
-  query MyCreatedEvents {
-    myCreatedEvents {
-      ...eventInfo
+  query MyCreatedEvents($input: EventsQueryInput!) {
+    myCreatedEvents(input: $input) {
+      events {
+        ...eventInfo
+      }
+      total
     }
   }
 
@@ -84,5 +99,15 @@ export const MY_CREATED_EVENTS = gql`
 `;
 
 export type MyCreatedEventsQueryData = {
-  myCreatedEvents: Event[];
+  myCreatedEvents: {
+    events: Event[];
+    total: number;
+  };
+};
+
+export type EventsQueryInput = {
+  input: {
+    page: number;
+    limit?: number;
+  };
 };
