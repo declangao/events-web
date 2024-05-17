@@ -7,15 +7,3 @@ export type Registration = {
   event?: Event;
   user?: User;
 };
-
-export type ResisterEventMutationData = {
-  registerEvent: Registration;
-};
-
-export type UnresisterEventMutationData = {
-  unregisterEvent: Registration;
-};
-
-export type CheckRegistrationQueryData = {
-  checkRegistration: boolean;
-};

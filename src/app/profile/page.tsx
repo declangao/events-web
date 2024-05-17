@@ -1,7 +1,6 @@
 import ProfileForm from '@/components/profile-form';
-import { MY_PROFILE } from '@/graphql/queries';
+import { MY_PROFILE, MyProfileQueryData } from '@/graphql/queries';
 import { getApolloClient } from '@/lib/apollo-client';
-import { MyProfileQueryData } from '@/types/user';
 
 const ProfilePage = async () => {
   const { data, error } = await getApolloClient().query<MyProfileQueryData>({

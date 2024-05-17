@@ -1,8 +1,7 @@
 import EventActions from '@/components/event-actions';
 import { PLACEHOLDER_IMAGE } from '@/config';
-import { EVENT_BY_ID } from '@/graphql/queries';
+import { EVENT_BY_ID, EventByIdQueryData } from '@/graphql/queries';
 import { getApolloClient } from '@/lib/apollo-client';
-import { EventByIdQueryData } from '@/types/event';
 import Image from 'next/image';
 import Link from 'next/link';
 

@@ -23,23 +23,23 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // const unsubscribe = auth.onAuthStateChanged(async (user) => {
-    //   if (user) {
-    //     const idTokenResult = await user.getIdTokenResult();
+    const unsubscribe2 = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const idTokenResult = await user.getIdTokenResult();
 
-    //     setUser({
-    //       email: user.email!,
-    //       token: idTokenResult.token,
-    //     });
+        setUser({
+          email: user.email!,
+          token: idTokenResult.token,
+        });
 
-    //     setCookie('token', idTokenResult.token, {
-    //       path: '/',
-    //     });
-    //   } else {
-    //     setUser(null);
-    //     deleteCookie('token');
-    //   }
-    // });
+        setCookie('token', idTokenResult.token, {
+          path: '/',
+        });
+      } else {
+        setUser(null);
+        deleteCookie('token');
+      }
+    });
 
     const unsubscribe = auth.onIdTokenChanged(async (user) => {
       if (user) {

@@ -40,7 +40,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     auth.signOut();
-    authCtx.setUser(null);
+    // authCtx.setUser(null);
     router.push('/');
     toast.success('Logged out successfully');
   };
@@ -56,9 +56,13 @@ const Navbar = () => {
             <Calendar className="size-6" />
             <span className="sr-only">{appName}</span>
           </Link>
-          {navLinks.map((link) => (
-            <NavLink key={link.name} {...link} />
-          ))}
+          {navLinks.map((link) => {
+            if (link.authRequired && !authCtx.user) {
+              return null;
+            }
+
+            return <NavLink key={link.name} {...link} />;
+          })}
         </nav>
         <Sheet>
           <SheetTrigger asChild>

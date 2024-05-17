@@ -15,7 +15,7 @@ const NavLink = ({ name, href }: Props) => {
   return (
     <Link
       href={href}
-      className={cn('transition-colors hover:text-foreground', {
+      className={cn('transition-colors hover:text-foreground text-nowrap', {
         'text-foreground': path === href,
         'text-muted-foreground': path !== href,
       })}

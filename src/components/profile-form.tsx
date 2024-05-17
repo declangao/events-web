@@ -10,12 +10,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { UPDATE_USER } from '@/graphql/mutations';
+import { UPDATE_USER, UpdateUserMutationData } from '@/graphql/mutations';
 import { MY_PROFILE } from '@/graphql/queries';
 import { profileFormPayload, profileFormSchema } from '@/schemas/profile-form';
 import { AuthContext } from '@/store/auth';
 import { TImage } from '@/types/image';
-import { UpdateUserMutationData, User } from '@/types/user';
+import { User } from '@/types/user';
 import { useMutation } from '@apollo/client';
 import { omitDeep } from '@apollo/client/utilities';
 import { zodResolver } from '@hookform/resolvers/zod';

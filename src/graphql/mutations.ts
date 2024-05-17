@@ -1,3 +1,6 @@
+import { Event } from '@/types/event';
+import { Registration } from '@/types/registration';
+import { User } from '@/types/user';
 import { gql } from '@apollo/client';
 import { FRAGMENT_EVENT_INFO, FRAGMENT_USER_INFO } from './fragments';
 
@@ -20,6 +23,10 @@ export const CREATE_EVENT = gql`
   ${FRAGMENT_EVENT_INFO}
 `;
 
+export type CreateEventMutationData = {
+  createEvent: Event;
+};
+
 export const DELETE_EVENT = gql`
   mutation DeleteEvent($id: String!) {
     deleteEvent(id: $id) {
@@ -29,6 +36,10 @@ export const DELETE_EVENT = gql`
 
   ${FRAGMENT_EVENT_INFO}
 `;
+
+export type DeleteEventMutationData = {
+  eventById: Event;
+};
 
 export const UPDATE_EVENT = gql`
   mutation UpdateEvent($input: UpdateEventInput!) {
@@ -40,6 +51,10 @@ export const UPDATE_EVENT = gql`
   ${FRAGMENT_EVENT_INFO}
 `;
 
+export type UpdateEventMutationData = {
+  updateEvent: Event;
+};
+
 export const REGISTER_EVENT = gql`
   mutation RegisterEvent($eventId: String!) {
     registerEvent(eventId: $eventId) {
@@ -48,6 +63,10 @@ export const REGISTER_EVENT = gql`
     }
   }
 `;
+
+export type ResisterEventMutationData = {
+  registerEvent: Registration;
+};
 
 export const UNREGISTER_EVENT = gql`
   mutation UnregisterEvent($eventId: String!) {
@@ -58,6 +77,10 @@ export const UNREGISTER_EVENT = gql`
   }
 `;
 
+export type UnresisterEventMutationData = {
+  unregisterEvent: Registration;
+};
+
 export const UPDATE_USER = gql`
   mutation UpdateUser($input: UpdateUserInput!) {
     updateUser(input: $input) {
@@ -67,3 +90,7 @@ export const UPDATE_USER = gql`
 
   ${FRAGMENT_USER_INFO}
 `;
+
+export type UpdateUserMutationData = {
+  updateUser: User;
+};

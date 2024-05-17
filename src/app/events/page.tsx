@@ -1,7 +1,6 @@
 import EventsGrid from '@/components/events-grid';
-import { ALL_EVENTS } from '@/graphql/queries';
+import { ALL_EVENTS, AllEventsQueryData } from '@/graphql/queries';
 import { getApolloClient } from '@/lib/apollo-client';
-import { AllEventsQueryData } from '@/types/event';
 
 const EventsPage = async () => {
   const { data } = await getApolloClient().query<AllEventsQueryData>({

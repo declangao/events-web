@@ -14,22 +14,7 @@ export type Event = {
   creator?: User;
 };
 
-export type AllEventsQueryData = {
-  allEvents: Event[];
-};
-
-export type EventByIdQueryData = {
-  eventById: Event;
-};
-
-export type CreateEventMutationData = {
-  createEvent: Event;
-};
-
-export type DeleteEventMutationData = {
-  eventById: Event;
-};
-
-export type UpdateEventMutationData = {
-  updateEvent: Event;
-};
+export enum MyEventsGridType {
+  REGISTERED,
+  PUBLISHED,
+}

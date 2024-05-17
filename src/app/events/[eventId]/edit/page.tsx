@@ -1,10 +1,9 @@
 'use client';
 
 import EventEditor from '@/components/event-editor';
-import { UPDATE_EVENT } from '@/graphql/mutations';
-import { ALL_EVENTS, EVENT_BY_ID } from '@/graphql/queries';
+import { UPDATE_EVENT, UpdateEventMutationData } from '@/graphql/mutations';
+import { ALL_EVENTS, EVENT_BY_ID, EventByIdQueryData } from '@/graphql/queries';
 import { EventFormPayload } from '@/schemas/event-form';
-import { EventByIdQueryData, UpdateEventMutationData } from '@/types/event';
 import { useMutation, useSuspenseQuery } from '@apollo/client';
 import { omitDeep } from '@apollo/client/utilities';
 import { useRouter } from 'next/navigation';

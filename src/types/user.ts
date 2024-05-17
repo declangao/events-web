@@ -7,11 +7,3 @@ export type User = {
   about?: string;
   image?: TImage;
 };
-
-export type MyProfileQueryData = {
-  myProfile: User;
-};
-
-export type UpdateUserMutationData = {
-  updateUser: User;
-};

@@ -2,7 +2,7 @@
 
 import EventEditor from '@/components/event-editor';
 import { CREATE_EVENT } from '@/graphql/mutations';
-import { ALL_EVENTS } from '@/graphql/queries';
+import { ALL_EVENTS, MY_CREATED_EVENTS } from '@/graphql/queries';
 import { EventFormPayload } from '@/schemas/event-form';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/navigation';
@@ -41,8 +41,7 @@ const PostEvent = () => {
           description: error.message,
         });
       },
-      refetchQueries: [{ query: ALL_EVENTS }],
-      // fetchPolicy: 'network-only',
+      refetchQueries: [{ query: ALL_EVENTS }, { query: MY_CREATED_EVENTS }],
     });
 
     setIsPending(false);

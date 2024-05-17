@@ -14,16 +14,18 @@ import {
 import {
   DELETE_EVENT,
   REGISTER_EVENT,
+  ResisterEventMutationData,
   UNREGISTER_EVENT,
+  UnresisterEventMutationData,
 } from '@/graphql/mutations';
-import { ALL_EVENTS, CHECK_REGISTRATION } from '@/graphql/queries';
+import {
+  ALL_EVENTS,
+  CHECK_REGISTRATION,
+  CheckRegistrationQueryData,
+  MY_REGISTERED_EVENTS,
+} from '@/graphql/queries';
 import { AuthContext } from '@/store/auth';
 import { Event } from '@/types/event';
-import {
-  CheckRegistrationQueryData,
-  ResisterEventMutationData,
-  UnresisterEventMutationData,
-} from '@/types/registration';
 import { useMutation, useQuery } from '@apollo/client';
 import { Edit, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -84,7 +86,10 @@ const EventActions = ({ eventId, creatorEmail }: Props) => {
       variables: {
         eventId,
       },
-      refetchQueries: [{ query: CHECK_REGISTRATION, variables: { eventId } }],
+      refetchQueries: [
+        { query: CHECK_REGISTRATION, variables: { eventId } },
+        { query: MY_REGISTERED_EVENTS },
+      ],
       onCompleted: () => {
         toast.success('You have successfully registered for this event');
         router.refresh();
@@ -102,7 +107,10 @@ const EventActions = ({ eventId, creatorEmail }: Props) => {
       variables: {
         eventId,
       },
-      refetchQueries: [{ query: CHECK_REGISTRATION, variables: { eventId } }],
+      refetchQueries: [
+        { query: CHECK_REGISTRATION, variables: { eventId } },
+        { query: MY_REGISTERED_EVENTS },
+      ],
       onCompleted: () => {
         toast.success('You have successfully unregistered for this event');
         router.refresh();
