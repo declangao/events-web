@@ -11,5 +11,5 @@ export const IMAGE_UPLOAD_LIMIT = 6;
 
 export const PLACEHOLDER_IMAGE = '/placeholder.png';
 
-export const INFINITE_EVENT_PAGE_LIMIT = 1;
+export const INFINITE_EVENT_PAGE_LIMIT = 2;
 export const EVENT_PAGE_LIMIT = 9;

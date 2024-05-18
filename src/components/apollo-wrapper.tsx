@@ -44,7 +44,28 @@ function makeClient() {
 
   return new NextSSRApolloClient({
     // use the `NextSSRInMemoryCache`, not the normal `InMemoryCache`
-    cache: new NextSSRInMemoryCache(),
+    cache: new NextSSRInMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            allEvents: {
+              keyArgs: false,
+              merge(existing, incoming) {
+                // console.log('existing', existing);
+                // console.log('incoming', incoming);
+                if (!incoming) return existing;
+                if (!existing) return incoming;
+                const { events, ...rest } = incoming;
+                return {
+                  events: [...existing.events, ...events],
+                  ...rest,
+                };
+              },
+            },
+          },
+        },
+      },
+    }),
     link:
       typeof window === 'undefined'
         ? ApolloLink.from([

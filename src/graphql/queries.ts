@@ -4,8 +4,8 @@ import { gql } from '@apollo/client';
 import { FRAGMENT_EVENT_INFO, FRAGMENT_USER_INFO } from './fragments';
 
 export const ALL_EVENTS = gql`
-  query AllEvents {
-    allEvents {
+  query AllEvents($input: EventsQueryInput) {
+    allEvents(input: $input) {
       events {
         ...eventInfo
       }
@@ -66,7 +66,7 @@ export type MyProfileQueryData = {
 };
 
 export const MY_REGISTERED_EVENTS = gql`
-  query MyRegisteredEvents($input: EventsQueryInput!) {
+  query MyRegisteredEvents($input: EventsQueryInput) {
     myRegisteredEvents(input: $input) {
       events {
         ...eventInfo
@@ -86,7 +86,7 @@ export type MyRegisteredEventsQueryData = {
 };
 
 export const MY_CREATED_EVENTS = gql`
-  query MyCreatedEvents($input: EventsQueryInput!) {
+  query MyCreatedEvents($input: EventsQueryInput) {
     myCreatedEvents(input: $input) {
       events {
         ...eventInfo
