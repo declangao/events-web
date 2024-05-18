@@ -28,13 +28,13 @@ type Props = {
   initData?: Event;
 };
 
-const defaultValues = {
-  name: 'Test event 1',
-  location: 'Test location',
-  date: '2025-03-21',
-  time: '13:00',
-  description: 'Test description',
-};
+// const defaultValues = {
+//   name: 'Test event 1',
+//   location: 'Test location',
+//   date: '2025-03-21',
+//   time: '13:00',
+//   description: 'Test description',
+// };
 
 const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
   const [images, setImages] = useState<TImage[]>(initData?.images || []);
@@ -45,8 +45,6 @@ const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
     register,
     handleSubmit,
     reset,
-    control,
-    getValues,
     formState: { errors },
   } = useForm<EventFormPayload>({
     resolver: zodResolver(eventFormSchema),
@@ -56,7 +54,7 @@ const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
           date: format(new Date(initData.datetime), 'yyyy-MM-dd'),
           time: format(new Date(initData.datetime), 'HH:mm'),
         }
-      : defaultValues,
+      : {},
   });
 
   const handleEventSubmit = async (data: EventFormPayload) => {

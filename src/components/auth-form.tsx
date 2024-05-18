@@ -103,7 +103,7 @@ export function AuthForm({
               //     : ''
               // }
               {...value}
-              placeholder="m@example.com"
+              placeholder="Youe email address"
               disabled={isPending || type === AuthFormType.CompleteRegistration}
               // disabled={isPending}
               required
@@ -131,6 +131,7 @@ export function AuthForm({
                 <Input
                   id="password"
                   type="password"
+                  placeholder="Your password"
                   disabled={isPending}
                   required
                   {...register('password')}
@@ -142,6 +143,13 @@ export function AuthForm({
                 )}
               </div>
             )}
+
+          {type === AuthFormType.Login && (
+            <div className="text-muted-foreground">
+              <p>Demo user: demo@example.com</p>
+              <p>Demo password: 123456</p>
+            </div>
+          )}
 
           <Button type="submit" disabled={isPending} className="w-full">
             {type === AuthFormType.Login && 'Login'}

@@ -12,13 +12,13 @@ type Props = {
 const EventCard = ({ event }: Props) => {
   return (
     <Link href={`/events/${event.id}`}>
-      <Card className="hover:shadow-lg transition-shadow duration-300">
+      <Card className="hover:shadow-lg transition-shadow duration-300 h-full">
         <CardHeader className="">
           <ImageSlider images={event.images.map((image) => image.url)} />
         </CardHeader>
 
         <CardContent className="grid gap-2">
-          <h4 className="text-2xl font-semibold leading-none tracking-tight">
+          <h4 className="text-2xl font-semibold leading-none tracking-tight line-clamp-2">
             {event.name}
           </h4>
           <p className="text-muted-foreground italic">
@@ -26,7 +26,7 @@ const EventCard = ({ event }: Props) => {
               event.datetime
             ).toLocaleTimeString()}`}
           </p>
-          <p className="">{event.location}</p>
+          <p className="truncate">{event.location}</p>
         </CardContent>
       </Card>
     </Link>
