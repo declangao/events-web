@@ -10,7 +10,6 @@ import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { useSuspenseQuery } from '@apollo/client';
 import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
 import EventCard from './event-card';
 
 type Props = {
@@ -36,6 +35,7 @@ const InfiniteEventsGrid = ({
         limit: pageSize,
       },
     },
+    // fetchPolicy: 'cache-and-network',
   });
 
   const handleFetchMore = async () => {
@@ -48,9 +48,9 @@ const InfiniteEventsGrid = ({
 
     if (Math.ceil(res.data.allEvents.total / pageSize) === page) {
       setEndReached(true);
-      toast("You've reached the end", {
-        description: 'No more events to load',
-      });
+      // toast("You've reached the end", {
+      //   description: 'No more events to load',
+      // });
     }
 
     setPage((prevPage) => prevPage + 1);
@@ -85,9 +85,18 @@ const InfiniteEventsGrid = ({
             <Loader2 className="size-8 animate-spin" />
           </div>
         )}
-
-        <div ref={ref}></div>
       </div>
+
+      {endReached && (
+        <div className="w-full flex items-center">
+          <hr className="w-full" />
+          <span className="text-muted-foreground text-nowrap mx-4">
+            You&apos;ve reached the end {':('}
+          </span>
+          <hr className="w-full" />
+        </div>
+      )}
+      <div ref={ref}></div>
     </div>
   );
 };

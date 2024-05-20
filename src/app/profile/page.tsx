@@ -5,6 +5,7 @@ import { getApolloClient } from '@/lib/apollo-client';
 const ProfilePage = async () => {
   const { data, error } = await getApolloClient().query<MyProfileQueryData>({
     query: MY_PROFILE,
+    fetchPolicy: 'no-cache',
   });
 
   if (error) {

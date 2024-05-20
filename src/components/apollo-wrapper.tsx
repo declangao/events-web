@@ -50,9 +50,10 @@ function makeClient() {
           fields: {
             allEvents: {
               keyArgs: false,
-              merge(existing, incoming) {
+              merge(existing, incoming, { args }) {
                 // console.log('existing', existing);
                 // console.log('incoming', incoming);
+                console.log(args);
                 if (!incoming) return existing;
                 if (!existing) return incoming;
                 const { events, ...rest } = incoming;

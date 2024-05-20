@@ -89,6 +89,7 @@ const ImageSlider = ({ images }: Props) => {
               src={image}
               alt={`Image ${index + 1}`}
               fill
+              sizes="(max-width: 768px) 100vw, 33vw"
               className="object-cover rounded-md"
             />
           </SwiperSlide>

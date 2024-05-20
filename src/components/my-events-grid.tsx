@@ -37,6 +37,7 @@ const MyEventsGrid = ({ type }: Props) => {
           limit: EVENT_PAGE_LIMIT,
         },
       },
+      fetchPolicy: 'no-cache',
       skip: !authCtx.user || type !== MyEventsGridType.REGISTERED,
     }
   );
@@ -52,6 +53,7 @@ const MyEventsGrid = ({ type }: Props) => {
         limit: EVENT_PAGE_LIMIT,
       },
     },
+    fetchPolicy: 'no-cache',
     skip: !authCtx.user || type !== MyEventsGridType.PUBLISHED,
   });
 
