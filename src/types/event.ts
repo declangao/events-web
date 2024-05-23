@@ -12,6 +12,9 @@ export type Event = {
   images: TImage[];
   creatorId: string;
   creator?: User;
+  lat: number;
+  lng: number;
+  address: string;
 };
 
 export enum MyEventsGridType {

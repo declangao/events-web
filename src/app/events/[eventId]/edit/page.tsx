@@ -56,6 +56,9 @@ const EditEventPage = ({ params: { eventId } }: Props) => {
           description: data.description,
           images: data.images.map((image) => omitDeep(image, '__typename')),
           datetime,
+          lat: data.lat,
+          lng: data.lng,
+          address: data.address,
         },
       },
       onCompleted: () => {

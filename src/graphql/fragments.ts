@@ -25,6 +25,9 @@ export const FRAGMENT_EVENT_INFO = gql`
       url
       publicId
     }
+    lat
+    lng
+    address
     creatorId
     createdAt
   }

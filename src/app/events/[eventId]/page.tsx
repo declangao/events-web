@@ -1,3 +1,4 @@
+import EmbeddedMap from '@/components/embedded-map';
 import EventActions from '@/components/event-actions';
 import { PLACEHOLDER_IMAGE } from '@/config';
 import { EVENT_BY_ID, EventByIdQueryData } from '@/graphql/queries';
@@ -64,13 +65,25 @@ const EventDetailsPage = async ({ params: { eventId } }: Props) => {
 
         <dl className="grid gap-2">
           <dt className="font-bold">Location</dt>
-          <dd>{event.location}</dd>
+          <dd>
+            {event.address.startsWith(event.location)
+              ? event.address
+              : event.location + ', ' + event.address}
+          </dd>
         </dl>
 
         <dl className="grid gap-2">
           <dt className="font-bold">Description</dt>
           <dd>{event.description}</dd>
         </dl>
+      </div>
+
+      <div className="w-full h-[400px]">
+        <EmbeddedMap
+          // address={event.location}
+          lat={event.lat}
+          lng={event.lng}
+        />
       </div>
 
       {event.images

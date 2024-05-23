@@ -12,7 +12,7 @@ type Props = {
 const EventCard = ({ event }: Props) => {
   return (
     <Link href={`/events/${event.id}`}>
-      <Card className="hover:shadow-lg transition-shadow duration-300 h-full">
+      <Card className="hover:shadow-lg hover:shadow-primary/30 transition-shadow duration-300 h-full">
         <CardHeader className="">
           <ImageSlider images={event.images.map((image) => image.url)} />
         </CardHeader>

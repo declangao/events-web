@@ -53,7 +53,7 @@ function makeClient() {
               merge(existing, incoming, { args }) {
                 // console.log('existing', existing);
                 // console.log('incoming', incoming);
-                console.log(args);
+                // console.log(args);
                 if (!incoming) return existing;
                 if (!existing) return incoming;
                 const { events, ...rest } = incoming;

@@ -8,17 +8,28 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  Command,
+  CommandEmpty,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { useOnClickOutside } from '@/hooks/use-on-click-outside';
 import { EventFormPayload, eventFormSchema } from '@/schemas/event-form';
 import { Event } from '@/types/event';
 import { TImage } from '@/types/image';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { useDebounce } from 'use-debounce';
 import ImageUpload from './image-upload';
 
 type Props = {
@@ -37,9 +48,36 @@ type Props = {
 // };
 
 const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
+  // console.log(initData);
   const [images, setImages] = useState<TImage[]>(initData?.images || []);
+  const [locationInput, setLocationInput] = useState(initData?.location || '');
+  const [locationResults, setLocationResults] = useState<
+    google.maps.places.Place[]
+  >([]);
+  const [locationHasFocus, setLocationHasFocus] = useState(false);
 
   const router = useRouter();
+
+  const commandRef = useRef<HTMLDivElement>(null);
+  const placesLib = useMapsLibrary('places');
+
+  const address = useRef<string>(initData?.address ?? '');
+  const lat = useRef<number>(initData?.lat ?? 0);
+  const lng = useRef<number>(initData?.lng ?? 0);
+
+  const [debouncedInput] = useDebounce(locationInput, 500);
+
+  useOnClickOutside(commandRef, () => {
+    if (locationHasFocus) {
+      setLocationInput('');
+      address.current = '';
+      lat.current = 0;
+      lng.current = 0;
+    }
+
+    setLocationHasFocus(false);
+    setLocationResults([]);
+  });
 
   const {
     register,
@@ -57,10 +95,33 @@ const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
       : {},
   });
 
+  useEffect(() => {
+    if (!placesLib || !debouncedInput || !locationHasFocus) return;
+
+    placesLib.Place.searchByText({
+      textQuery: debouncedInput,
+      fields: ['displayName', 'location', 'formattedAddress'],
+      maxResultCount: 5,
+    }).then((res) => {
+      if (res.places.length) {
+        setLocationResults(res.places);
+      }
+    });
+  }, [placesLib, debouncedInput, locationHasFocus]);
+
   const handleEventSubmit = async (data: EventFormPayload) => {
+    if (!locationInput || !lat.current || !lng.current || !address.current) {
+      toast.error('Please select a location');
+      return;
+    }
+
     onSubmit({
       ...data,
       images,
+      location: locationInput,
+      lat: lat.current,
+      lng: lng.current,
+      address: address.current,
     });
   };
 
@@ -103,7 +164,48 @@ const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
 
               <div className="grid gap-3">
                 <Label htmlFor="location">Location</Label>
-                <Input
+                <Command
+                  ref={commandRef}
+                  className="rounded-lg border shadow-none relative overflow-visible"
+                >
+                  <CommandInput
+                    value={locationInput}
+                    onClick={() => setLocationHasFocus(true)}
+                    onValueChange={(text) => {
+                      setLocationInput(text);
+                    }}
+                    placeholder="Enter an address to search..."
+                  />
+                  <CommandList className="absolute top-full inset-x-0 bg-primary-foreground">
+                    {locationHasFocus &&
+                      locationInput &&
+                      locationResults.length === 0 && (
+                        <CommandEmpty>No location found.</CommandEmpty>
+                      )}
+                    {locationHasFocus &&
+                      locationResults.map((result) => {
+                        return (
+                          <CommandItem
+                            key={result.id}
+                            value={`${result.displayName} - ${result.formattedAddress}`}
+                            onSelect={() => {
+                              setLocationHasFocus(false);
+                              setLocationInput(result.displayName!);
+                              lat.current = result.location?.lat() ?? 0;
+                              lng.current = result.location?.lng() ?? 0;
+                              address.current = result.formattedAddress!;
+                            }}
+                          >
+                            {`${result.displayName} - ${result.formattedAddress}`}
+                          </CommandItem>
+                        );
+                      })}
+                  </CommandList>
+                </Command>
+                <p className="text-xs text-muted-foreground">
+                  {address.current}
+                </p>
+                {/* <Input
                   id="location"
                   {...register('location')}
                   className="w-full"
@@ -112,7 +214,7 @@ const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
                   <span className="text-red-500">
                     {errors.location.message}
                   </span>
-                )}
+                )} */}
               </div>
 
               <div className="grid grid-cols-2 gap-4 items-start">

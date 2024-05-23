@@ -62,7 +62,7 @@ const EventActions = ({ eventId, creatorEmail }: Props) => {
       refetchQueries: [{ query: ALL_EVENTS }],
       onCompleted: () => {
         toast.success('Event deleted successfully');
-        router.push('/events');
+        router.back();
         router.refresh();
       },
       onError: (error) => {

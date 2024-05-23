@@ -1,5 +1,6 @@
 'use client';
 
+import { APIProvider } from '@vis.gl/react-google-maps';
 import { ThemeProvider } from 'next-themes';
 import { PropsWithChildren } from 'react';
 import { ApolloWrapper } from './apollo-wrapper';
@@ -13,7 +14,9 @@ const Providers = ({ children }: PropsWithChildren) => {
         enableSystem
         disableTransitionOnChange
       >
-        {children}
+        <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
+          {children}
+        </APIProvider>
       </ThemeProvider>
     </ApolloWrapper>
   );

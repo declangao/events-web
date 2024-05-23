@@ -29,6 +29,9 @@ const PostEvent = () => {
           description: data.description,
           datetime: datetime,
           images: data.images,
+          lat: data.lat,
+          lng: data.lng,
+          address: data.address,
         },
       },
       onCompleted: () => {
