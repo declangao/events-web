@@ -35,7 +35,6 @@ const InfiniteEventsGrid = ({
         limit: pageSize,
       },
     },
-    // fetchPolicy: 'cache-and-network',
   });
 
   const handleFetchMore = async () => {

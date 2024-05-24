@@ -111,3 +111,31 @@ export type EventsQueryInput = {
     limit?: number;
   };
 };
+
+export const SEARCH_EVENTS = gql`
+  query SearchEvents($input: SearchEventsQueryInput!) {
+    searchEvents(input: $input) {
+      events {
+        ...eventInfo
+      }
+      total
+    }
+  }
+
+  ${FRAGMENT_EVENT_INFO}
+`;
+
+export type SearchEventsQueryData = {
+  searchEvents: {
+    events: Event[];
+    total: number;
+  };
+};
+
+export type SearchEventsQueryInput = {
+  input: {
+    query: string;
+    page: number;
+    limit?: number;
+  };
+};

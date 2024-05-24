@@ -93,11 +93,15 @@ const Navbar = () => {
         </Sheet>
 
         <div className="flex w-full items-center gap-4 ml-4 md:ml-auto md:gap-2 lg:gap-4">
-          <form className="ml-auto flex-1 sm:flex-initial">
+          <form
+            action="/events/search"
+            className="ml-auto flex-1 sm:flex-initial"
+          >
             <div className="relative">
               <Search className="absolute left-3 top-3 size-4 text-muted-foreground" />
               <Input
                 type="search"
+                name="q"
                 placeholder="Search events..."
                 className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
               />
