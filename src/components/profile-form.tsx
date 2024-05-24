@@ -191,7 +191,7 @@ const ProfileForm = ({ initData }: Props) => {
                       type="button"
                       onClick={() => handleImageDelete(avatar.publicId)}
                     >
-                      <Trash2 className="size-4" />
+                      <Trash2 className="size-4 text-black" />
                     </Button>
                   )}
                 </div>

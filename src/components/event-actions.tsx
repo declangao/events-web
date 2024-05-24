@@ -124,7 +124,14 @@ const EventActions = ({ eventId, creatorEmail }: Props) => {
   };
 
   if (!authCtx.user) {
-    return null;
+    return (
+      <Button
+        onClick={() => toast.error('Please login first')}
+        className="w-fit"
+      >
+        Register
+      </Button>
+    );
   }
 
   if (authCtx.user && authCtx.user.email !== creatorEmail) {

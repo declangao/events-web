@@ -9,7 +9,7 @@ import {
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { useSuspenseQuery } from '@apollo/client';
 import { Loader2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import EventCard from './event-card';
 
 type Props = {
@@ -37,7 +37,7 @@ const InfiniteEventsGrid = ({
     },
   });
 
-  const handleFetchMore = async () => {
+  const handleFetchMore = useCallback(async () => {
     if (isPending || endReached) return;
 
     setIsPending(true);
@@ -54,13 +54,13 @@ const InfiniteEventsGrid = ({
 
     setPage((prevPage) => prevPage + 1);
     setIsPending(false);
-  };
+  }, [endReached, fetchMore, isPending, page, pageSize]);
 
   useEffect(() => {
     if (isIntersecting) {
       handleFetchMore();
     }
-  }, [isIntersecting]);
+  }, [isIntersecting, handleFetchMore]);
 
   if (error) {
     return <div>Error: {error.message}</div>;
