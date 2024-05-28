@@ -103,7 +103,7 @@ const Navbar = () => {
                 type="search"
                 name="q"
                 placeholder="Search events..."
-                className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+                className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px] bg-transparent hover:bg-background transition-colors duration-300"
               />
             </div>
           </form>
