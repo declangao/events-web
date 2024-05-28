@@ -32,3 +32,30 @@ export const FRAGMENT_EVENT_INFO = gql`
     createdAt
   }
 `;
+
+export const FRAGMENT_EVENT_INFO_WITH_ATTENDEES = gql`
+  fragment eventInfoWithAttendees on Event {
+    id
+    name
+    description
+    location
+    datetime
+    images {
+      url
+      publicId
+    }
+    lat
+    lng
+    address
+    creatorId
+    createdAt
+    attendees {
+      id
+      username
+      image {
+        url
+        publicId
+      }
+    }
+  }
+`;

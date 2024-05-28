@@ -1,7 +1,11 @@
 import { Event } from '@/types/event';
 import { User } from '@/types/user';
 import { gql } from '@apollo/client';
-import { FRAGMENT_EVENT_INFO, FRAGMENT_USER_INFO } from './fragments';
+import {
+  FRAGMENT_EVENT_INFO,
+  FRAGMENT_EVENT_INFO_WITH_ATTENDEES,
+  FRAGMENT_USER_INFO,
+} from './fragments';
 
 export const ALL_EVENTS = gql`
   query AllEvents($input: EventsQueryInput) {
@@ -26,14 +30,14 @@ export type AllEventsQueryData = {
 export const EVENT_BY_ID = gql`
   query EventById($id: String!) {
     eventById(id: $id) {
-      ...eventInfo
+      ...eventInfoWithAttendees
       creator {
         ...userInfo
       }
     }
   }
 
-  ${FRAGMENT_EVENT_INFO}
+  ${FRAGMENT_EVENT_INFO_WITH_ATTENDEES}
   ${FRAGMENT_USER_INFO}
 `;
 

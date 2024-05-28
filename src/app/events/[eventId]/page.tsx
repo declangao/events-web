@@ -1,5 +1,6 @@
 import EmbeddedMap from '@/components/embedded-map';
 import EventActions from '@/components/event-actions';
+import UserAvatar from '@/components/user-avatar';
 import { PLACEHOLDER_IMAGE } from '@/config';
 import { EVENT_BY_ID, EventByIdQueryData } from '@/graphql/queries';
 import { getApolloClient } from '@/lib/apollo-client';
@@ -25,6 +26,8 @@ const EventDetailsPage = async ({ params: { eventId } }: Props) => {
   if (!event) {
     return <div>Event not found</div>;
   }
+
+  const attendees = event.attendees || [];
 
   return (
     <article className="max-w-3xl mx-auto py-8 grid gap-4">
@@ -79,11 +82,7 @@ const EventDetailsPage = async ({ params: { eventId } }: Props) => {
       </div>
 
       <div className="w-full h-[400px]">
-        <EmbeddedMap
-          // address={event.location}
-          lat={event.lat}
-          lng={event.lng}
-        />
+        <EmbeddedMap lat={event.lat} lng={event.lng} />
       </div>
 
       {event.images
@@ -97,6 +96,18 @@ const EventDetailsPage = async ({ params: { eventId } }: Props) => {
             height={400}
           />
         ))}
+
+      {attendees.length > 0 && (
+        <>
+          <hr />
+          <h3 className="text-3xl font-semibold">Registered Users</h3>
+          <section className="grid grid-cols-[repeat(auto-fill,minmax(2rem,1fr))] gap-4">
+            {attendees.map((attendee) => (
+              <UserAvatar key={attendee.id} user={attendee} />
+            ))}
+          </section>
+        </>
+      )}
     </article>
   );
 };

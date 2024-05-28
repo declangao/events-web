@@ -15,6 +15,7 @@ export type Event = {
   lat: number;
   lng: number;
   address: string;
+  attendees?: User[];
 };
 
 export enum MyEventsGridType {
