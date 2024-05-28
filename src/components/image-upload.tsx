@@ -139,7 +139,7 @@ const ImageUpload = ({ images = [], setImages }: Props) => {
               <div
                 {...getRootProps()}
                 role="button"
-                className="w-full h-[200px] p-8 rounded-lg border-2 border-dashed flex flex-col justify-center items-center gap-2 bg-primary-foreground text-muted-foreground text-sm"
+                className="w-full h-[200px] p-8 rounded-lg border-2 border-dashed flex flex-col justify-center items-center gap-2 bg-primary-foreground dark:bg-secondary text-muted-foreground text-sm"
               >
                 <input {...getInputProps()} />
                 <Upload className="size-5" />

@@ -25,7 +25,7 @@ const InfiniteEventsGrid = ({
 
   const { isIntersecting, ref } = useIntersectionObserver();
 
-  const { data, error, fetchMore } = useSuspenseQuery<
+  const { data, error, fetchMore, refetch } = useSuspenseQuery<
     AllEventsQueryData,
     EventsQueryInput
   >(ALL_EVENTS, {
@@ -36,6 +36,20 @@ const InfiniteEventsGrid = ({
       },
     },
   });
+
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined' && navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       console.log(position);
+  //       refetch({
+  //         input: {
+  //           page,
+  //           limit: pageSize,
+  //         },
+  //       });
+  //     });
+  //   }
+  // }, []);
 
   const handleFetchMore = useCallback(async () => {
     if (isPending || endReached) return;

@@ -176,7 +176,7 @@ const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
                     }}
                     placeholder="Enter an address to search..."
                   />
-                  <CommandList className="absolute top-full inset-x-0 bg-primary-foreground">
+                  <CommandList className="absolute top-full inset-x-0 bg-primary-foreground dark:bg-secondary">
                     {locationHasFocus &&
                       locationInput &&
                       locationResults.length === 0 && (

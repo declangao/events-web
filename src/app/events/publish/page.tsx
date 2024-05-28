@@ -3,6 +3,7 @@
 import EventEditor from '@/components/event-editor';
 import { CREATE_EVENT } from '@/graphql/mutations';
 import { ALL_EVENTS, MY_CREATED_EVENTS } from '@/graphql/queries';
+import { showConfetti } from '@/lib/utils';
 import { EventFormPayload } from '@/schemas/event-form';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/navigation';
@@ -38,6 +39,7 @@ const PostEvent = () => {
         router.push('/events');
         router.refresh();
         toast.success('Event published successfully');
+        showConfetti();
       },
       onError: (error) => {
         toast.error('Failed to publish event', {

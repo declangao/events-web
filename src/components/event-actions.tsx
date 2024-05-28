@@ -24,6 +24,7 @@ import {
   CheckRegistrationQueryData,
   MY_REGISTERED_EVENTS,
 } from '@/graphql/queries';
+import { showConfetti } from '@/lib/utils';
 import { AuthContext } from '@/store/auth';
 import { Event } from '@/types/event';
 import { useMutation, useQuery } from '@apollo/client';
@@ -93,6 +94,7 @@ const EventActions = ({ eventId, creatorEmail }: Props) => {
       onCompleted: () => {
         toast.success('You have successfully registered for this event');
         router.refresh();
+        showConfetti();
       },
       onError: (error) => {
         toast.error('Failed to register for this event', {
