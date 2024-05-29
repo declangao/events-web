@@ -5,6 +5,7 @@ import {
   FRAGMENT_EVENT_INFO,
   FRAGMENT_EVENT_INFO_WITH_ATTENDEES,
   FRAGMENT_USER_INFO,
+  FRAGMENT_USER_INFO_WITH_EVENTS,
 } from './fragments';
 
 export const ALL_EVENTS = gql`
@@ -142,4 +143,18 @@ export type SearchEventsQueryInput = {
     page: number;
     limit?: number;
   };
+};
+
+export const PUBLIC_PROFILE = gql`
+  query PublicProfile($username: String!) {
+    publicProfile(username: $username) {
+      ...userInfoWithEvents
+    }
+  }
+
+  ${FRAGMENT_USER_INFO_WITH_EVENTS}
+`;
+
+export type PublicProfileQueryData = {
+  publicProfile: User;
 };

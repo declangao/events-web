@@ -1,3 +1,4 @@
+import { Event } from './event';
 import { TImage } from './image';
 
 export type User = {
@@ -6,4 +7,5 @@ export type User = {
   username: string;
   about?: string;
   image?: TImage;
+  createdEvents?: Event[];
 };
