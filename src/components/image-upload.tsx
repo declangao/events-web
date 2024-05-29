@@ -4,7 +4,7 @@ import { IMAGE_UPLOAD_LIMIT } from '@/config';
 import { AuthContext } from '@/store/auth';
 import { TImage } from '@/types/image';
 import axios from 'axios';
-import { Trash2, Upload } from 'lucide-react';
+import { ArrowBigLeft, ArrowBigRight, Trash2, Upload } from 'lucide-react';
 import Image from 'next/image';
 import { useContext } from 'react';
 import Dropzone from 'react-dropzone';
@@ -116,6 +116,26 @@ const ImageUpload = ({ images = [], setImages }: Props) => {
     }
   };
 
+  const handleMoveLeft = (id: string) => {
+    const index = images.findIndex((img) => img.publicId === id);
+    if (index > 0) {
+      const newImages = [...images];
+      const [removed] = newImages.splice(index, 1);
+      newImages.splice(index - 1, 0, removed);
+      setImages(newImages);
+    }
+  };
+
+  const handleMoveRight = (id: string) => {
+    const index = images.findIndex((img) => img.publicId === id);
+    if (index < images.length - 1) {
+      const newImages = [...images];
+      const [removed] = newImages.splice(index, 1);
+      newImages.splice(index + 1, 0, removed);
+      setImages(newImages);
+    }
+  };
+
   return (
     <Card className="overflow-hidden">
       <CardHeader>
@@ -126,7 +146,7 @@ const ImageUpload = ({ images = [], setImages }: Props) => {
       </CardHeader>
 
       <CardContent>
-        <div className="grid gap-4">
+        <div className="grid gap-2">
           <Dropzone
             accept={{
               'image/png': ['.png'],
@@ -139,12 +159,12 @@ const ImageUpload = ({ images = [], setImages }: Props) => {
               <div
                 {...getRootProps()}
                 role="button"
-                className="w-full h-[200px] p-8 rounded-lg border-2 border-dashed flex flex-col justify-center items-center gap-2 bg-primary-foreground dark:bg-secondary text-muted-foreground text-sm"
+                className="w-full h-[180px] p-8 rounded-lg border-2 border-dashed flex flex-col justify-center items-center gap-2 bg-primary-foreground dark:bg-secondary text-muted-foreground text-sm"
               >
                 <input {...getInputProps()} />
                 <Upload className="size-5" />
                 <p>Click or Drag &apos;n&apos; drop to upload</p>
-                <p>(Up to {IMAGE_UPLOAD_LIMIT} images in total)</p>
+                <p>(Up to {IMAGE_UPLOAD_LIMIT} images)</p>
               </div>
             )}
           </Dropzone>
@@ -159,14 +179,28 @@ const ImageUpload = ({ images = [], setImages }: Props) => {
                   width="100"
                   className="aspect-square w-full rounded-md object-cover"
                 />
-                <Trash2
-                  role="button"
-                  onClick={() => handleRemoveImage(image.publicId)}
-                  className="size-6 absolute hidden bottom-2 right-2 group-hover:inline-block text-primary-foreground"
-                />
+                <div className="absolute hidden bottom-2 left-2 right-2 group-hover:flex justify-center items-center text-primary-foreground gap-2">
+                  <ArrowBigLeft
+                    onClick={() => handleMoveLeft(image.publicId)}
+                    className="size-6 text-primary-foreground"
+                  />
+                  <Trash2
+                    role="button"
+                    onClick={() => handleRemoveImage(image.publicId)}
+                    className="size-6 text-primary-foreground"
+                  />
+                  <ArrowBigRight
+                    onClick={() => handleMoveRight(image.publicId)}
+                    className="size-6 text-primary-foreground"
+                  />
+                </div>
               </div>
             ))}
           </div>
+          <p className="text-xs text-muted-foreground">
+            Tip: First image will be used as thumbnail. Hover over images to
+            reorder and delete.
+          </p>
         </div>
       </CardContent>
     </Card>
