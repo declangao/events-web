@@ -60,7 +60,7 @@ const InfiniteEventsGrid = ({
         (error: GeolocationPositionError) => {
           if (error.code === error.PERMISSION_DENIED) {
             toast.warning('Geolocation permission denied', {
-              description: 'Please enable geolocation for better results',
+              description: 'Enable geolocation to see events near you.',
             });
           }
         }
