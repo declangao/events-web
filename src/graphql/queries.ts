@@ -114,6 +114,8 @@ export type EventsQueryInput = {
   input: {
     page: number;
     limit?: number;
+    lat?: number;
+    lng?: number;
   };
 };
 

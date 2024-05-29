@@ -9,7 +9,8 @@ import {
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { useSuspenseQuery } from '@apollo/client';
 import { Loader2 } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
 import EventCard from './event-card';
 
 type Props = {
@@ -25,6 +26,9 @@ const InfiniteEventsGrid = ({
 
   const { isIntersecting, ref } = useIntersectionObserver();
 
+  const latRef = useRef<number>(0);
+  const lngRef = useRef<number>(0);
+
   const { data, error, fetchMore, refetch } = useSuspenseQuery<
     AllEventsQueryData,
     EventsQueryInput
@@ -37,26 +41,47 @@ const InfiniteEventsGrid = ({
     },
   });
 
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined' && navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       console.log(position);
-  //       refetch({
-  //         input: {
-  //           page,
-  //           limit: pageSize,
-  //         },
-  //       });
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log(position);
+          latRef.current = position.coords.latitude;
+          lngRef.current = position.coords.longitude;
+          refetch({
+            input: {
+              page,
+              limit: pageSize,
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            },
+          });
+        },
+        (error: GeolocationPositionError) => {
+          if (error.code === error.PERMISSION_DENIED) {
+            toast.warning('Geolocation permission denied', {
+              description: 'Please enable geolocation for better results',
+            });
+          }
+        }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFetchMore = useCallback(async () => {
     if (isPending || endReached) return;
 
     setIsPending(true);
     const res = await fetchMore({
-      variables: { input: { page: page + 1, limit: pageSize } },
+      variables: {
+        input: {
+          page: page + 1,
+          limit: pageSize,
+          lat: latRef.current,
+          lng: lngRef.current,
+        },
+      },
     });
 
     if (Math.ceil(res.data.allEvents.total / pageSize) === page) {
