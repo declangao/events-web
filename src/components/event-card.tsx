@@ -3,6 +3,7 @@ import Link from 'next/link';
 import ImageSlider from './image-slider';
 import { Card, CardContent, CardHeader } from './ui/card';
 
+import { formateDatetime } from '@/lib/utils';
 import 'swiper/css';
 
 type Props = {
@@ -22,9 +23,10 @@ const EventCard = ({ event }: Props) => {
             {event.name}
           </h4>
           <p className="text-muted-foreground italic">
-            {`${new Date(event.datetime).toLocaleDateString()} ${new Date(
+            {/* {`${new Date(event.datetime).toLocaleDateString()} ${new Date(
               event.datetime
-            ).toLocaleTimeString()}`}
+            ).toLocaleTimeString()}`} */}
+            {formateDatetime(new Date(event.datetime))}
           </p>
           <p className="truncate">{event.location}</p>
         </CardContent>
