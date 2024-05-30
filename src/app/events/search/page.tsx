@@ -33,7 +33,7 @@ const SearchEventsPage = ({}: Props) => {
   });
 
   return (
-    <div className="grid gap-4 my-8">
+    <div className="container grid gap-4 my-8">
       <div className="grid md:grid-cols-3 gap-4">
         {data?.searchEvents?.events.length === 0 && <div>No events found</div>}
 

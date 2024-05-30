@@ -14,7 +14,7 @@ const AuthLayout = ({ children }: PropsWithChildren) => {
     }
   }, [authCtx.user, router]);
 
-  return children;
+  return <div className="container">{children}</div>;
 };
 
 export default AuthLayout;

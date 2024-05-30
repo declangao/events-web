@@ -4,7 +4,7 @@ import { MyEventsGridType } from '@/types/event';
 
 const MyEventsPage = () => {
   return (
-    <div className="my-8">
+    <div className="container my-8">
       <Tabs defaultValue="published" className="">
         <TabsList className="grid grid-cols-2 mb-4">
           <TabsTrigger value="published" className="">

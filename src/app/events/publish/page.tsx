@@ -53,7 +53,7 @@ const PostEvent = () => {
   };
 
   return (
-    <div className="mx-auto max-w-6xl my-8">
+    <div className="container mx-auto max-w-6xl my-8">
       <EventEditor onSubmit={handleSubmit} isPending={isPending} />
     </div>
   );

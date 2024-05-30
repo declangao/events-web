@@ -30,7 +30,7 @@ const EventDetailsPage = async ({ params: { eventId } }: Props) => {
   const attendees = event.attendees || [];
 
   return (
-    <article className="max-w-3xl mx-auto py-8 grid gap-4">
+    <article className="container max-w-3xl mx-auto py-8 grid gap-4">
       <header>
         <Image
           src={event.images.length ? event.images[0].url : PLACEHOLDER_IMAGE}

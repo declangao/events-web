@@ -13,7 +13,7 @@ const ProfilePage = async () => {
   }
 
   return (
-    <div className="mx-auto max-w-6xl my-8">
+    <div className="container mx-auto max-w-6xl my-8">
       <ProfileForm initData={data?.myProfile} />
     </div>
   );

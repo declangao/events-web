@@ -7,7 +7,7 @@ const EventsPage = async () => {
   // });
 
   return (
-    <div className="py-8">
+    <div className="container py-8">
       <h3 className="text-3xl font-bold text-center mb-4">All Events</h3>
       {/* <EventsGrid events={data.allEvents.events} /> */}
       <InfiniteEventsGrid pageSize={12} />

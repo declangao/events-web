@@ -81,7 +81,7 @@ const EditEventPage = ({ params: { eventId } }: Props) => {
   };
 
   return (
-    <div className="mx-auto max-w-6xl my-8">
+    <div className="container mx-auto max-w-6xl my-8">
       <EventEditor
         initData={fetchedEvent}
         isPending={isPending}

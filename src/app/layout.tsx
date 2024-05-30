@@ -33,7 +33,7 @@ export default function RootLayout({
             >
               <Navbar />
 
-              <main className="flex-grow container pt-16">{children}</main>
+              <main className="flex-grow pt-16">{children}</main>
 
               <Toaster richColors />
 
