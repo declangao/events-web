@@ -18,6 +18,8 @@ const PostEvent = () => {
   const [createEvent] = useMutation(CREATE_EVENT);
 
   const handleSubmit = async (data: EventFormPayload) => {
+    console.log(data);
+
     setIsPending(true);
 
     const datetime = new Date(data.date + 'T' + data.time).toISOString();
@@ -29,6 +31,7 @@ const PostEvent = () => {
           location: data.location,
           description: data.description,
           datetime: datetime,
+          category: data.category,
           images: data.images,
           lat: data.lat,
           lng: data.lng,

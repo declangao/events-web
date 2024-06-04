@@ -9,6 +9,7 @@ export type Event = {
   description: string;
   location: string;
   datetime: Date;
+  category: string;
   images: TImage[];
   creatorId: string;
   creator?: User;

@@ -80,7 +80,7 @@ const MyEventsGrid = ({ type }: Props) => {
 
   return (
     <div className="grid gap-8">
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {data?.events?.length === 0 && <div>No events found</div>}
 
         {data?.events?.map((event) => (

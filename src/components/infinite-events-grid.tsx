@@ -33,6 +33,7 @@ const InfiniteEventsGrid = ({
     AllEventsQueryData,
     EventsQueryInput
   >(ALL_EVENTS, {
+    queryKey: ['allEvents', 'infinite'],
     variables: {
       input: {
         page,

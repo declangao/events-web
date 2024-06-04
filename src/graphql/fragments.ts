@@ -7,6 +7,7 @@ export const FRAGMENT_EVENT_INFO = gql`
     description
     location
     datetime
+    category
     images {
       url
       publicId
@@ -26,6 +27,7 @@ export const FRAGMENT_EVENT_INFO_WITH_ATTENDEES = gql`
     description
     location
     datetime
+    category
     images {
       url
       publicId

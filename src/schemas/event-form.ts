@@ -11,14 +11,16 @@ export const eventFormSchema = z.object({
     .max(1000, 'Description must be less than 500 characters'),
   date: z.string().date(),
   time: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time'),
+  category: z
+    .string({ required_error: 'Please select a category' })
+    .min(1, 'Please select a category'),
   images: z
     .array(z.object({ url: z.string().url(), publicId: z.string() }))
     .default([]),
   location: z
     .string()
-    .min(5, 'Location must be at least 5 characters')
-    .max(100, 'Location must be less than 100 characters')
-    .optional(),
+    .min(1, 'Location is required')
+    .max(100, 'Location must be less than 100 characters'),
   lat: z.number().optional(),
   lng: z.number().optional(),
   address: z.string().optional(),

@@ -57,14 +57,21 @@ const EventDetailsPage = async ({ params: { eventId } }: Props) => {
       <EventActions eventId={eventId} creatorEmail={event.creator?.email!} />
 
       <div className="grid gap-4">
-        <dl className="grid gap-2">
-          <dt className="font-bold">Date</dt>
-          <dd>
-            {new Date(event.datetime).toLocaleDateString() +
-              ' ' +
-              new Date(event.datetime).toLocaleTimeString()}
-          </dd>
-        </dl>
+        <div className="flex flex-col md:flex-row gap-4 md:gap-8">
+          <dl className="grid gap-2">
+            <dt className="font-bold">Date</dt>
+            <dd>
+              {new Date(event.datetime).toLocaleDateString() +
+                ' ' +
+                new Date(event.datetime).toLocaleTimeString()}
+            </dd>
+          </dl>
+
+          <dl className="grid gap-2">
+            <dt className="font-bold">Category</dt>
+            <dd>{event.category}</dd>
+          </dl>
+        </div>
 
         <dl className="grid gap-2">
           <dt className="font-bold">Location</dt>

@@ -16,9 +16,9 @@ bun dev
 
 ## Todo
 
-- [ ] Home page
+- [x] Home page
 - [x] User page
 - [x] Attendees on event detail page
-- [ ] Event category
+- [x] Event category
 - [ ] Event grid filters
 - [x] Sort events based on user location

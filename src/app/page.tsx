@@ -6,6 +6,7 @@ import { useSuspenseQuery } from '@apollo/client';
 
 export default function Home() {
   const { data } = useSuspenseQuery<AllEventsQueryData>(ALL_EVENTS, {
+    queryKey: ['allEvents', 'homepage'],
     variables: {
       input: {
         limit: 16,

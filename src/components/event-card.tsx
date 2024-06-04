@@ -23,10 +23,8 @@ const EventCard = ({ event }: Props) => {
             {event.name}
           </h4>
           <p className="text-muted-foreground italic">
-            {/* {`${new Date(event.datetime).toLocaleDateString()} ${new Date(
-              event.datetime
-            ).toLocaleTimeString()}`} */}
-            {formateDatetime(new Date(event.datetime))}
+            {`${formateDatetime(new Date(event.datetime))}`}
+            <span className="hidden md:inline">{` ${event.category}`}</span>
           </p>
           <p className="truncate">{event.location}</p>
         </CardContent>
