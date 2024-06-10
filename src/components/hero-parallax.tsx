@@ -112,13 +112,11 @@ export const Header = () => {
         <Highlight>Networking</Highlight> Platform
       </h1>
       <p className="max-w-2xl text-base font-semibold md:text-xl mt-8 dark:text-neutral-200">
-        Don&apos;t know what to do and don&apos;t have anyone to go do something
-        with?
+        Don&apos;t have anything to do or lack company?
       </p>
       <p className="max-w-2xl text-base md:text-xl mt-4 dark:text-neutral-200">
-        We provide a platform for everyone to post their own events and join
-        others. Say goodbye to the hassle of finding things to do or someone to
-        go out with.
+        Our platform lets you create and join events effortlessly. Wave goodbye
+        to the struggle of finding activities and companions.
       </p>
       <div className="flex gap-4 mt-8">
         <Link href="/events" className={buttonVariants()}>

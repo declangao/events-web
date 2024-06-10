@@ -9,22 +9,27 @@ import {
 import { useIntersectionObserver } from '@/hooks/use-intersection-observer';
 import { useSuspenseQuery } from '@apollo/client';
 import { Loader2 } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import EventCard from './event-card';
 
 type Props = {
   pageSize?: number;
+  category?: string;
 };
 
 const InfiniteEventsGrid = ({
   pageSize = INFINITE_EVENT_PAGE_LIMIT,
+  category,
 }: Props) => {
   const [isPending, setIsPending] = useState(false);
   const [page, setPage] = useState(1);
   const [endReached, setEndReached] = useState(false);
 
   const { isIntersecting, ref } = useIntersectionObserver();
+
+  const searchParams = useSearchParams();
 
   const latRef = useRef<number>(0);
   const lngRef = useRef<number>(0);
@@ -38,9 +43,25 @@ const InfiniteEventsGrid = ({
       input: {
         page,
         limit: pageSize,
+        category,
       },
     },
   });
+
+  const handleRefetch = useCallback(() => {
+    setPage(1);
+    setEndReached(false);
+
+    refetch({
+      input: {
+        page: 1,
+        limit: pageSize,
+        lat: latRef.current,
+        lng: lngRef.current,
+        category,
+      },
+    });
+  }, [category, pageSize, refetch]);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -49,14 +70,8 @@ const InfiniteEventsGrid = ({
           console.log(position);
           latRef.current = position.coords.latitude;
           lngRef.current = position.coords.longitude;
-          refetch({
-            input: {
-              page,
-              limit: pageSize,
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            },
-          });
+
+          handleRefetch();
         },
         (error: GeolocationPositionError) => {
           if (error.code === error.PERMISSION_DENIED) {
@@ -70,6 +85,11 @@ const InfiniteEventsGrid = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    handleRefetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category]);
+
   const handleFetchMore = useCallback(async () => {
     if (isPending || endReached) return;
 
@@ -81,6 +101,7 @@ const InfiniteEventsGrid = ({
           limit: pageSize,
           lat: latRef.current,
           lng: lngRef.current,
+          category,
         },
       },
     });
@@ -94,7 +115,7 @@ const InfiniteEventsGrid = ({
 
     setPage((prevPage) => prevPage + 1);
     setIsPending(false);
-  }, [endReached, fetchMore, isPending, page, pageSize]);
+  }, [endReached, fetchMore, isPending, page, pageSize, category]);
 
   useEffect(() => {
     if (isIntersecting) {

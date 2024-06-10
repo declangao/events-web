@@ -20,5 +20,5 @@ bun dev
 - [x] User page
 - [x] Attendees on event detail page
 - [x] Event category
-- [ ] Event grid filters
+- [x] Event grid filters
 - [x] Sort events based on user location

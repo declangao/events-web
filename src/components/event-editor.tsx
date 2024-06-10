@@ -173,7 +173,12 @@ const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input type="text" {...field} className="w-full" />
+                        <Input
+                          type="text"
+                          placeholder="Name of the event"
+                          {...field}
+                          className="w-full"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -198,7 +203,7 @@ const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
                               onValueChange={(text) => {
                                 setLocationInput(text);
                               }}
-                              placeholder="Enter an address to search..."
+                              placeholder="Enter name or address to search"
                             />
                             <CommandList className="absolute top-full inset-x-0 bg-primary-foreground dark:bg-secondary">
                               {locationHasFocus &&
@@ -319,6 +324,7 @@ const EventEditor = ({ isPending, onSubmit, initData, onCancel }: Props) => {
                       <FormControl>
                         <Textarea
                           id="description"
+                          placeholder="Description of the event"
                           {...field}
                           className="min-h-32"
                         />

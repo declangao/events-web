@@ -116,6 +116,7 @@ export type EventsQueryInput = {
     limit?: number;
     lat?: number;
     lng?: number;
+    category?: string;
   };
 };
 
